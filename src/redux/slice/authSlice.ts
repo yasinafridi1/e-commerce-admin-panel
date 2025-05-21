@@ -2,14 +2,15 @@ import type { AuthState } from "@customTypes/index";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: AuthState = {
-  isLoggedIn: true,
-  data: {
-    role: "ADMIN",
-    id: "1",
-    name: "John Doe",
-    email: "john@gmail.com",
-    image: "https://example.com/image.jpg",
-  },
+  isLoggedIn: false,
+  data: null,
+  // data: {
+  //   role: "ADMIN",
+  //   id: "1",
+  //   name: "John Doe",
+  //   email: "john@gmail.com",
+  //   image: "https://example.com/image.jpg",
+  // },
   isLoading: false,
   error: null,
 };

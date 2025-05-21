@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import logo from '@images/logo.png';
+import logoWhite from '@images/logoWhite.png';
 import { getLocalStorageValue, storeInLocalStorage } from '@utils/localstorageutil';
 import CONSTANTS from '@constants/index';
 import sidebarData from '@data/sidebardata';
@@ -66,9 +66,9 @@ const Index = ({ sideBarOpen, setSideBar }: { sideBarOpen: boolean, setSideBar: 
             className={`absolute left-0 top-0 z-99 flex h-screen w-64 flex-col overflow-y-hidden bg-primary duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sideBarOpen ? "translate-x-0" : "-translate-x-full"
                 }`}
         >
-            <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
+            <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6  lg:justify-center">
                 <NavLink to="/">
-                    <img src={logo} alt="Logo" />
+                    <img src={logoWhite} alt="Logo" className='w-24 h-24' />
                 </NavLink>
 
                 <button
@@ -103,8 +103,8 @@ const Index = ({ sideBarOpen, setSideBar }: { sideBarOpen: boolean, setSideBar: 
                                     <li key={index}>
                                         <NavLink
                                             to={item.url}
-                                            className={`group relative flex items-center gap-2.5 py-3 px-5 poppin-500 text-lg text-white duration-300 ease-in-out rounded-full hover:bg-[--secondary] dark:hover:bg-meta-4 ${pathname === item.url &&
-                                                "bg-[--secondary] dark:bg-meta-4"
+                                            className={`group relative flex items-center gap-2.5 py-3 px-5 poppins-500 text-lg text-light duration-300 ease-in-out rounded-full hover:bg-primary-light dark:hover:bg-boxdark2 ${pathname === item.url &&
+                                                "bg-primary-light dark:bg-boxdark2"
                                                 }`}
                                         >
                                             <span className="text-2xl">{item.icon}</span>

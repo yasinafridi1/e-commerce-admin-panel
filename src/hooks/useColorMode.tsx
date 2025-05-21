@@ -10,6 +10,8 @@ const useColorMode = () => {
     getLocalStorageValue(CONSTANTS.colorMode) || "light"
   );
 
+  console.log("Clor ==>", colorMode)
+
   useEffect(() => {
     const className = "dark";
     const bodyClass = window.document.body.classList;

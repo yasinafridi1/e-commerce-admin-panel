@@ -1,9 +1,8 @@
+import PageHeader from "@/components/Headers/PageHeader";
 
 const Customer = () => {
     return (
-        <div>
-            Customer hgere
-        </div>
+        <PageHeader text="Customers"></PageHeader>
     );
 }
 

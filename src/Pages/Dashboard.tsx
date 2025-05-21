@@ -1,9 +1,8 @@
+import PageHeader from "@/components/Headers/PageHeader";
 
 const Dashboard = () => {
     return (
-        <div>
-            Dashboard 
-        </div>
+        <PageHeader text="Dashboard"></PageHeader>
     );
 }
 

@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import logo from "@images/logo.png";
+import profileImage from "@images/profile.png";
 // import { useDispatch } from 'react-redux';
 import ClickOutside from '@components/Wrappers/ClickOutside';
 import { useState } from 'react';
@@ -21,9 +21,9 @@ const DropdownUser = () => {
                 className="flex items-center gap-4"
                 to="#"
             >
-                <span className="h-10 w-10 sm:w-12 sm:h-12 md:w-14 md:h-14 xl:w-16 xl:h-16  border-4 border-[--primary-light] rounded-full transition-all duration-300 hover:border-8">
+                <span className="h-10 w-10 sm:w-12 sm:h-12 md:w-14 md:h-14 xl:w-16 xl:h-16  border-4 border-primary-light rounded-full transition-all duration-300 hover:border-8">
                     <img
-                        src={logo}
+                        src={profileImage}
                         className="w-full h-full rounded-full"
                         alt="User Profile"
                     />
@@ -33,13 +33,13 @@ const DropdownUser = () => {
             {/* <!-- Dropdown Start --> */}
             {dropdownOpen && (
                 <div
-                    className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark`}
+                    className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm  bg-white shadow-default dark:bg-boxdark`}
                 >
-                    <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
+                    <ul className="flex flex-col gap-5 border-b dark:border-gray-500 border-gray-300 px-6 py-7.5 dark:border-strokedark">
                         <li>
                             <Link
                                 to="/profile"
-                                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-[--primary] lg:text-base"
+                                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out text-boxdark dark:text-light lg:text-base"
                             >
                                 <svg
                                     className="fill-current"
@@ -65,7 +65,7 @@ const DropdownUser = () => {
                     <button
                         type="button"
                         onClick={handleLogout}
-                        className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-[--primary] lg:text-base"
+                        className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out text-boxdark dark:text-light lg:text-base"
                     >
                         <svg
                             className="fill-current"

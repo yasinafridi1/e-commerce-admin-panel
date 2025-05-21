@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from "@images/logo.png";
+import logoPrimary from "@images/logoPrimary.png";
 import ModeSwitcher from '@components/Headers/ModeSwitcher';
 import DropdowNotification from '@components/Headers/DropdownNotification';
 import DropdownUser from '@components/Headers/DropdownUser';
@@ -50,7 +50,7 @@ const DashboardHeader = ({ sideBarOpen, setSideBar }: { sideBarOpen: boolean, se
 
                     <Link className="block flex-shrink-0 lg:hidden" to="/">
                         <img
-                            src={logo}
+                            src={logoPrimary}
                             alt="Logo"
                             className="w-10 h-7 sm:w-15 sm:h-9 md:w-19 md:h-13"
                         />

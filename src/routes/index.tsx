@@ -10,7 +10,7 @@ export default createBrowserRouter([
   {
     path: "/signin",
     element: (
-      <RedirectRoute>    
+      <RedirectRoute>
         <Login />
       </RedirectRoute>
     )
@@ -22,10 +22,10 @@ export default createBrowserRouter([
         <DashboardLayout />
       </PrivateRoutes>
     ),
-    children:[
-      { path:"/", element:<Dashboard/> },
-      { path:"/dashboard", element:<Dashboard/> },
-      { path:"/customer", element:<Customer/> }
+    children: [
+      { path: "/", element: <Dashboard /> },
+      { path: "/dashboard", element: <Dashboard /> },
+      { path: "/customers", element: <Customer /> }
     ]
   }
 ]);

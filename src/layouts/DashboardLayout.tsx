@@ -28,15 +28,15 @@ const DashboardLayout = () => {
                         sideBarOpen={sidebarOpen}
                         setSideBar={setSidebarOpen}
                     />
-
+                    <main>
+                        <div className="dark:bg-boxdark2 mx-auto max-w-screen p-3 md:p-5 2xl:p-8">
+                            <Outlet />
+                        </div>
+                    </main>
                 </div>
 
 
-                <main>
-                    <div className="mx-auto max-w-screen p-3 md:p-5 2xl:p-8">
-                        <Outlet />
-                    </div>
-                </main>
+
             </div>
         </div>
     );
