@@ -12,7 +12,9 @@ function asyncThunkRequest<Returend, ThunkArg = void>(
         const result = await callback(args);
         return result;
       } catch (err: any) {
-        errorToast(err?.response?.data?.message || "Something went wrong");
+        errorToast(
+          err?.response?.data?.message || err || "Something went wrong"
+        );
         return rejectWithValue(
           err?.response?.data?.message || err.message || "Something went wrong"
         );

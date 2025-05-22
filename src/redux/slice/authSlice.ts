@@ -1,6 +1,7 @@
 import type { AuthState } from "@customTypes/index";
 import { createSlice } from "@reduxjs/toolkit";
-import { login } from "../actions/authActions";
+import { login, refreshSession } from "../actions/authActions";
+import { removeTokens } from "@src/utils/localstorageutil";
 
 const initialState: AuthState = {
   isLoggedIn: false,
@@ -37,6 +38,23 @@ const authSlice = createSlice({
           (payload as string | undefined) ??
           error?.message ??
           "Something went wrong";
+      })
+      .addCase(refreshSession.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(refreshSession.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.isLoggedIn = true;
+        state.data = payload.userData;
+      })
+      .addCase(refreshSession.rejected, (state, { payload, error }) => {
+        state.isLoading = false;
+        state.error =
+          (payload as string | undefined) ??
+          error?.message ??
+          "Something went wrong";
+        removeTokens();
       });
   },
 });
