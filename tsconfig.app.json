@@ -8,7 +8,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"],
+      "@src/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@images/*": ["./src/assets/images/*"],
       "@data/*": ["./src/assets/data/*"],
@@ -17,6 +17,7 @@
       "@constants/*": ["./src/constants/*"],
       "@customTypes/*": ["./src/types/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@validations": ["./src/validations/index.ts"],
     },
 
     /* Bundler mode */

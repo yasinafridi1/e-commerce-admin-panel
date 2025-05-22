@@ -1,4 +1,4 @@
-import PageHeader from "@/components/Headers/PageHeader";
+import PageHeader from "@components/Headers/PageHeader";
 
 const Customer = () => {
     return (

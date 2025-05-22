@@ -7,10 +7,10 @@ interface BaseState<t> {
 }
 
 interface AuthData {
-  id: string;
-  name: string;
+  userId: string;
+  fullName: string;
   email: string;
-  image: string;
+  image?: string;
   role: "ADMIN";
 }
 
@@ -34,4 +34,10 @@ export interface TextInputProps {
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   touch?: boolean;
   type?: string;
+}
+
+export interface LoginInitialState {
+  email: string;
+  password: string;
+  fcmToken: string;
 }

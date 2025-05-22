@@ -1,18 +1,24 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { errorToast } from "./toasterUtil";
 
 function asyncThunkRequest<Returend, ThunkArg = void>(
   typePrefix: string,
-  asyncFunction: (arg: ThunkArg) => Promise<Returend>
+  callback: (args: ThunkArg) => Promise<Returend>
 ) {
   return createAsyncThunk<Returend, ThunkArg>(
     typePrefix,
-    async (arg, { rejectWithValue }) => {
+    async (args, { rejectWithValue }) => {
       try {
-        return await asyncFunction(arg);
+        const result = await callback(args);
+        return result;
       } catch (err: any) {
-        console.log("Error ==>", err);
-        return rejectWithValue(err.response?.data || "Something went wrong");
+        errorToast(err?.response?.data?.message || "Something went wrong");
+        return rejectWithValue(
+          err?.response?.data?.message || err.message || "Something went wrong"
+        );
       }
     }
   );
 }
+
+export default asyncThunkRequest;

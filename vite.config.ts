@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@src": path.resolve(__dirname, "src"),
       "@components": path.resolve(__dirname, "src/components"),
       "@images": path.resolve(__dirname, "src/assets/images"),
       "@data": path.resolve(__dirname, "src/assets/data"),
@@ -17,6 +17,7 @@ export default defineConfig({
       "@constants": path.resolve(__dirname, "src/constants"),
       "@customTypes": path.resolve(__dirname, "src/types"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
+      "@validations": path.resolve(__dirname, "src/validations/index.ts"),
     },
   },
 });
