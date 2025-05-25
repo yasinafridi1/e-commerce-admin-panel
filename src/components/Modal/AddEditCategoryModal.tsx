@@ -6,7 +6,7 @@ import type { AddEditModalProps } from '@customTypes/index';
 import TextInput from '@components/Inputs/TextInput';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '@redux/store';
-import { createCategory } from '@redux/actions/categoryActions';
+import { createCategory, updateCategory } from '@redux/actions/categoryActions';
 
 export interface CategoryStates {
     title: string
@@ -22,11 +22,15 @@ const AddEditCategoryModal: React.FC<AddEditModalProps> = ({ open, onClose, data
         },
         validationSchema: categorySchema,
         onSubmit: (values) => {
-            dispatch(createCategory(values)).then((res: any) => {
-                if (!res?.error) {
-                    onClose()
-                }
-            })
+            if (data) {
+                dispatch(updateCategory({ categoryId: data.categoryId, title: values.title }))
+            } else {
+                dispatch(createCategory(values)).then((res: any) => {
+                    if (!res?.error) {
+                        onClose()
+                    }
+                })
+            }
         }
     })
     return (

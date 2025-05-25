@@ -15,13 +15,13 @@ const DeleteModalFooter: React.FC<ModalFooterProps> = ({
                 <>
                     <button
                         onClick={onClose}
-                        className="flex-grow px-14 text-red-600 poppin-500 text-lg py-2 rounded-md bg-white border border-red-600 hover:text-white hover:bg-red-600 transition-all ease-out duration-500"
+                        className="flex-grow px-14 text-red-800 dark:text-red-500  poppins-500 text-lg py-2 rounded-md bg-white dark:bg-boxdark border border-red-800 hover:text-white hover:bg-red-800 transition-all ease-out duration-500"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={onSubmit}
-                        className="flex-grow px-14 text-white poppin-500 text-lg py-2 rounded-md bg-red-600 border border-red-600 hover:text-red-600 hover:bg-white transition-all ease-out duration-500"
+                        className="flex-grow px-14 text-light poppins-500 text-lg py-2 rounded-md bg-red-800 border border-red-800 hover:dark:text-red-500 hover:text-red-800 hover:bg-white hover:dark:bg-boxdark transition-all ease-out duration-500"
                     >
                         Delete
                     </button>

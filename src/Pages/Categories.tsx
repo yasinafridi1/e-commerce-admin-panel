@@ -2,6 +2,7 @@ import ButtonAdd from "@components/Buttons/ButtonAdd";
 import PageHeader from "@components/Headers/PageHeader";
 import TableHeader from "@components/Headers/TableHeader";
 import AddEditCategoryModal from "@components/Modal/AddEditCategoryModal";
+import DeleteCategory from "@components/Modal/DeleteCategory";
 import TableWrapper from "@components/Wrappers/TableWrapper";
 import ActionsCol from "@components/table/ActionCol";
 import HeadCell from "@components/table/HeadCell";
@@ -18,11 +19,33 @@ const Categories = () => {
   const dispatch: AppDispatch = useDispatch();
   const { isLoading, limit, page, data, totalPages, totalRecords } = useSelector((state: RootState) => state.categories)
   const [addEditModal, setAddEditModal] = useState<AddEditModalState>({ status: false, data: null })
+  const [deleteModal, setDeleteModal] = useState<AddEditModalState>({ status: false, data: null })
 
-  function handleAddEditModal(status = false, data = null) {
+  function closeAddEditModal() {
     setAddEditModal({
-      status,
+      status: false,
+      data: null
+    })
+  }
+  function openAddEditModal(data: any) {
+    setAddEditModal({
+      status: true,
       data: data
+    })
+  }
+
+
+  function closeDeleteModal() {
+    setDeleteModal({
+      status: false,
+      data: null
+    })
+  }
+
+  function openDeleteModal(categoryId: number) {
+    setDeleteModal({
+      status: true,
+      data: categoryId
     })
   }
 
@@ -39,11 +62,15 @@ const Categories = () => {
   return (
     <>
       {
-        addEditModal.status ? <AddEditCategoryModal open={addEditModal.status} onClose={() => { handleAddEditModal() }} /> : null
+        addEditModal.status ? <AddEditCategoryModal open={addEditModal.status} data={addEditModal.data} onClose={closeAddEditModal} /> : null
+      }
+
+      {
+        deleteModal.status ? <DeleteCategory open={deleteModal.status} onClose={closeDeleteModal} data={deleteModal.data} /> : null
       }
 
       <PageHeader text="Categories">
-        <ButtonAdd text="Add Category" onClick={() => { handleAddEditModal(true) }} />
+        <ButtonAdd text="Add Category" onClick={() => { openAddEditModal(null) }} />
       </PageHeader>
       <TableWrapper
         limit={limit}
@@ -92,10 +119,11 @@ const Categories = () => {
                 <td className="px-1">{formatDate(item.createdAt)}</td>
                 <td className="px-1">{formatDate(item.updatedAt)}</td>
                 <ActionsCol
-                  edit={false}
+                  edit={true}
+                  onEdit={() => { openAddEditModal({ categoryId: item.categoryId, title: item.title }) }}
                   deleteOpt={true}
                   view={true}
-                  onDelete={() => { }}
+                  onDelete={() => { openDeleteModal(item.categoryId) }}
                 />
               </tr>
             );

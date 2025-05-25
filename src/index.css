@@ -51,6 +51,6 @@ button {
   overflow-x: auto !important;
 }
 
-.hi {
-  color: #94c2ec;
+.modalBackground {
+  background-color: rgba(31, 31, 31, 0.64);
 }

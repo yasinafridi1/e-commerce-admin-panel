@@ -127,6 +127,6 @@ export interface AddEditModalProps {
 }
 
 export interface AddEditModalState {
-  status: boolean;
+  status?: boolean;
   data?: any;
 }
