@@ -9,3 +9,7 @@ export const loginSchema = Yup.object({
     .max(60, "Email must be less than 60 characters"),
   password: stringValidation(),
 });
+
+export const categorySchema = Yup.object({
+  title: stringValidation("Title is required"),
+});

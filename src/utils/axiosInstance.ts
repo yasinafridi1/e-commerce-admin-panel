@@ -3,7 +3,11 @@ import axios, {
   type AxiosRequestConfig,
   type InternalAxiosRequestConfig,
 } from "axios";
-import { getLocalStorageValue, removeTokens } from "@utils/localstorageutil";
+import {
+  getLocalStorageValue,
+  removeTokens,
+  storeTokens,
+} from "@utils/localstorageutil";
 import CONSTANTS from "@constants/index";
 import { forceLogout } from "@redux/slice/authSlice";
 
@@ -23,28 +27,38 @@ const api = axios.create({
 });
 
 export const attachStore = (
-  store: import("@reduxjs/toolkit").EnhancedStore
+  store: import("@reduxjs/toolkit").EnhancedStore,
 ) => {
   /** ───── Request ───── */
-  api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-    const token = getLocalStorageValue(CONSTANTS.accessToken);
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  });
+  api.interceptors.request.use(
+    (config: InternalAxiosRequestConfig) => {
+      const token = getLocalStorageValue(
+        CONSTANTS.accessToken,
+      );
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+
+      return config;
+    },
+  );
 
   /** ───── Response ───── */
   api.interceptors.response.use(
     (response) => response,
     async (error: AxiosError) => {
-      const original = error.config as RetryConfig;
-      if (error.response?.status === 401 && !original._retry) {
+      const original =
+        error.config as RetryConfig;
+      if (
+        error.response?.status === 401 &&
+        !original._retry
+      ) {
         original._retry = true;
 
-        const refresh = getLocalStorageValue(CONSTANTS.refreshToken);
+        const refresh = getLocalStorageValue(
+          CONSTANTS.refreshToken,
+        );
         if (!refresh) {
-          removeTokens();
           store.dispatch(forceLogout());
           return Promise.reject(error);
         }
@@ -52,14 +66,14 @@ export const attachStore = (
         try {
           const { data } = await axios.post(
             `${import.meta.env.VITE_API_URL}/auth/refresh`,
-            {},
-            { withCredentials: true }
+            {
+              refreshToken: refresh,
+            },
+            {
+              withCredentials: true,
+            },
           );
-          // write new tokens to storage…
-          original.headers = {
-            ...original.headers,
-            Authorization: `Bearer ${data.accessToken}`,
-          };
+          storeTokens(data.data);
           return api(original); // retry original call
         } catch {
           removeTokens();
@@ -67,7 +81,7 @@ export const attachStore = (
         }
       }
       return Promise.reject(error);
-    }
+    },
   );
 };
 

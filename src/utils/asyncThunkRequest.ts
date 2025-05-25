@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { errorToast } from "./toasterUtil";
 
-function asyncThunkRequest<Returend, ThunkArg = void>(
+function asyncThunkRequest<Returned, ThunkArg = void>(
   typePrefix: string,
-  callback: (args: ThunkArg) => Promise<Returend>
+  callback: (args: ThunkArg) => Promise<Returned>
 ) {
-  return createAsyncThunk<Returend, ThunkArg>(
+  return createAsyncThunk<Returned, ThunkArg>(
     typePrefix,
     async (args, { rejectWithValue }) => {
       try {

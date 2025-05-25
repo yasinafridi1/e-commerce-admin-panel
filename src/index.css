@@ -10,6 +10,7 @@
 @theme {
   --color-primary: #2e56ad;
   --color-primary-light: #4e81eefd;
+  --color-primary-thin: #94c2ec;
   --color-light: #dee4ee;
   --color-boxdark: #24303f;
   --color-boxdark2: #1a222c;
@@ -19,7 +20,10 @@ body {
   font-weight: 400;
   width: 100vw;
   height: 100vh;
-  background-color: var(--color-light);
+}
+
+button {
+  cursor: pointer;
 }
 
 .poppins-300 {
@@ -40,4 +44,13 @@ body {
 
 .poppins-800 {
   font-weight: 800 !important;
+}
+
+.dashboardTableWrapper {
+  width: 100%;
+  overflow-x: auto !important;
+}
+
+.hi {
+  color: #94c2ec;
 }

@@ -5,13 +5,20 @@ import { getLocalStorageValue } from "../utils/localstorageutil";
 import { Navigate } from "react-router-dom";
 import CONSTANTS from "../constants";
 
-const RedirectRoute = ({ children }: { children: ReactNode }) => {
-  const { isLoggedIn, data } = useSelector((state: RootState) => state.auth);
-  const location = getLocalStorageValue(CONSTANTS.location);
+const RedirectRoute = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  const { isLoggedIn, data } = useSelector(
+    (state: RootState) => state.auth,
+  );
+  const location = getLocalStorageValue(
+    CONSTANTS.location,
+  );
   if (isLoggedIn && data?.role === "ADMIN")
     return <Navigate to={location || "/"} />;
   return children;
 };
-
 
 export default RedirectRoute;

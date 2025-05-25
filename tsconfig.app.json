@@ -8,16 +8,18 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "paths": {
-      "@src/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@images/*": ["./src/assets/images/*"],
       "@data/*": ["./src/assets/data/*"],
       "@utils/*": ["./src/utils/*"],
+      "@Pages/*": ["./src/Pages/*"],
       "@redux/*": ["./src/redux/*"],
       "@constants/*": ["./src/constants/*"],
       "@customTypes/*": ["./src/types/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@validations": ["./src/validations/index.ts"],
+      "@validations": [
+        "./src/validations/index.ts"
+      ]
     },
 
     /* Bundler mode */
@@ -35,7 +37,7 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Added */
-    "types": ["vite/client","node"],            
+    "types": ["vite/client", "node"],
     "esModuleInterop": true
   },
   "include": ["src"]

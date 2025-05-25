@@ -1,8 +1,10 @@
 import { MdDashboard } from "react-icons/md";
-import { FaUser } from "react-icons/fa";
+import { FaListUl, FaUser } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
-import type { SidebarItem } from "@/types";
-
+import type { SidebarItem } from "@customTypes/index";
+import { GiJigsawBox } from "react-icons/gi";
+import { BiSolidCalendar } from "react-icons/bi";
+import { BsCreditCardFill } from "react-icons/bs";
 
 const sidebarData: SidebarItem[] = [
   {
@@ -11,19 +13,40 @@ const sidebarData: SidebarItem[] = [
     icon: <MdDashboard />,
   },
   {
+    label: "Orders",
+    url: "/orders",
+    icon: <BiSolidCalendar />,
+  },
+  {
     label: "Customer",
     url: "/customers",
     icon: <FaUser />,
   },
+  {
+    label: "Products",
+    url: "/products",
+    icon: <GiJigsawBox />,
+  },
+  {
+    label: "Categories",
+    url: "/categories",
+    icon: <FaListUl />,
+  },
+  {
+    label: "Payment",
+    url: "/payments",
+    icon: <BsCreditCardFill />,
+  },
+  {
+    label: "Setting",
+    url: "/setting",
+    icon: <IoSettings />,
+  },
+
   //   {
   //     label: "Invoices",
   //     url: "/invoices",
   //     icon: <FaFileInvoice />,
-  //   },
-  //   {
-  //     label: "Booking",
-  //     url: "/bookings",
-  //     icon: <BiSolidCalendar />,
   //   },
 
   //   {
@@ -41,11 +64,7 @@ const sidebarData: SidebarItem[] = [
   //     url: "/services",
   //     icon: <MdBuild />,
   //   },
-  //   {
-  //     label: "Categories",
-  //     url: "/categories",
-  //     icon: <FaListUl />,
-  //   },
+
   //   {
   //     label: "Zones",
   //     url: "/zone",
@@ -67,11 +86,6 @@ const sidebarData: SidebarItem[] = [
   //     url: "/queries",
   //     icon: <FaCircleQuestion />,
   //   },
-  {
-    label: "Setting",
-    url: "/setting",
-    icon: <IoSettings />,
-  },
 ];
 
 export default sidebarData;

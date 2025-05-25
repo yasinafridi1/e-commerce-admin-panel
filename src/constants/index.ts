@@ -6,4 +6,9 @@ const CONSTANTS = {
   sidebarExpanded: "shoppy-sidebar-expanded",
 };
 
+export const USER_STATUS = {
+  active: "ACTIVE",
+  blocked: "BLOCKED",
+};
+
 export default CONSTANTS;

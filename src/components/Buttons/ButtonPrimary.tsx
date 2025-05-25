@@ -1,11 +1,23 @@
 import type { MouseEventHandler } from "react";
 
-const ButtonPrimary = ({ text, onClick, type = "submit" }: { text: string, onClick?: MouseEventHandler, type?: "submit" | "button" }) => {
-    return (
-        <button type={type} onClick={onClick} className='border border-primary bg-primary text-light py-2 rounded-md mt-2 flex-grow text-sm sm:text-base poppins-600 transition-all ease-in-out duration-500 hover:bg-white hover:text-primary ' >
-            {text}
-        </button>
-    );
-}
+const ButtonPrimary = ({
+  text,
+  onClick,
+  type = "submit",
+}: {
+  text: string;
+  onClick?: MouseEventHandler;
+  type?: "submit" | "button";
+}) => {
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      className="border-primary bg-primary text-light poppins-600 hover:text-primary mt-2 flex-grow rounded-md border py-2 text-sm transition-all duration-500 ease-in-out hover:bg-white sm:text-base"
+    >
+      {text}
+    </button>
+  );
+};
 
 export default ButtonPrimary;
