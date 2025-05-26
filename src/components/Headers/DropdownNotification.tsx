@@ -24,11 +24,10 @@ const DropdowNotification = () => {
           className="bg-primary-light dark:bg-primary relative flex h-9 w-9 items-center justify-center rounded-full text-white sm:h-10 sm:w-10 md:h-12 md:w-12 xl:h-14 xl:w-14"
         >
           <span
-            className={`bg-primary-light border-primary absolute -top-0 right-0 z-1 h-3 w-3 rounded-full border ${
-              notifying === false
-                ? "hidden"
-                : "inline"
-            }`}
+            className={`bg-primary-light border-primary absolute -top-0 right-0 z-1 h-3 w-3 rounded-full border ${notifying === false
+              ? "hidden"
+              : "inline"
+              }`}
           >
             <span className="bg-light absolute -z-1 inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
           </span>
@@ -38,7 +37,7 @@ const DropdowNotification = () => {
 
         {dropdownOpen && (
           <div
-            className={`dark:bg-boxdark absolute -right-27 mt-2.5 flex h-90 w-75 flex-col rounded-sm bg-white sm:right-0 sm:w-80`}
+            className={`dark:bg-boxdark absolute -right-27 mt-2.5 flex h-90 w-75 flex-col rounded-sm bg-white border border-gray-300 dark:border-gray-500  sm:right-0 sm:w-80`}
           >
             <div className="px-4.5 py-3">
               <h5 className="text-bodydark2 text-sm font-medium dark:text-white">

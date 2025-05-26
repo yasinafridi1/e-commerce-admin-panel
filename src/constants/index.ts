@@ -11,4 +11,6 @@ export const USER_STATUS = {
   blocked: "BLOCKED",
 };
 
+export const PRODUCT_TYPES = ["MALE", "FEMALE", "CHIDLREN", "UNIVERSAL"];
+
 export default CONSTANTS;

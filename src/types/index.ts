@@ -65,6 +65,23 @@ export interface TextInputProps {
   type?: string;
 }
 
+interface OptionType {
+  label: string;
+  value: string;
+}
+
+export interface SelectInputProps {
+  options: OptionType[];
+  name: string;
+  value: string;
+  label: string;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onBlur: (e: ChangeEvent<HTMLSelectElement>) => void;
+  touch?: boolean;
+  placeHolder?: string;
+  error?: string;
+}
+
 export interface LoginInitialState {
   email: string;
   password: string;
@@ -129,4 +146,21 @@ export interface AddEditModalProps {
 export interface AddEditModalState {
   status?: boolean;
   data?: any;
+}
+
+interface VariantState {
+  color: string;
+  sizes: {
+    size: string;
+    stock: string;
+  }[];
+}
+
+export interface AddEditProductState {
+  productName: string;
+  categoryId: string;
+  price: string;
+  productType: string;
+  status: string;
+  variants: VariantState[];
 }
