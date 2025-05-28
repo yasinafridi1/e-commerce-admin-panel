@@ -13,4 +13,6 @@ export const USER_STATUS = {
 
 export const PRODUCT_TYPES = ["MALE", "FEMALE", "CHIDLREN", "UNIVERSAL"];
 
+export const PRODUCT_SIZE = ["3XL", "2XL", "XL", "LG", "MD", "SM", "XSM"];
+
 export default CONSTANTS;

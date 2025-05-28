@@ -6,7 +6,7 @@ import AddEditProduct from "./AddEditProduct";
 
 const Products = () => {
   const [addEditPage, setAddEditPage] = useState<AddEditModalState>({
-    status: false,
+    status: true,
     data: null,
   })
 

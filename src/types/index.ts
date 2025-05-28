@@ -55,7 +55,7 @@ export interface SidebarItem {
 
 export interface TextInputProps {
   name: string;
-  value: string;
+  value: string | number;
   label: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeHolder?: string;
@@ -148,18 +148,22 @@ export interface AddEditModalState {
   data?: any;
 }
 
-interface VariantState {
-  color: string;
-  sizes: {
-    size: string;
-    stock: string;
-  }[];
+export interface SizesState {
+  size: string;
+  stock: number;
+  image: any;
+}
+
+export interface VariantState {
+  colorName: string;
+  colorCode: string;
+  sizes: SizesState[];
 }
 
 export interface AddEditProductState {
   productName: string;
   categoryId: string;
-  price: string;
+  price: number;
   productType: string;
   status: string;
   variants: VariantState[];
