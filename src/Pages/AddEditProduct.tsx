@@ -25,30 +25,31 @@ import type {
     VariantState,
 } from "@customTypes/index";
 import { useState } from "react";
+import type { AppDispatch } from "@redux/store";
+import { useDispatch } from "react-redux";
+import { addProduct } from "@redux/actions/productActions";
 
 const classes = "flex flex-col gap-1 sm:gap-5 sm:flex-row";
 
 
-const defaultSize: SizesState = { size: "XL", stock: 10, image: null as any };
+const defaultSize: SizesState = { size: "", stock: 0, image: null as any };
 const defaultVariant: VariantState = {
-    colorName: "HAHAHAH",
+    colorName: "",
     colorCode: "#043349",
     sizes: [defaultSize],
 };
 
 const initialState: AddEditProductState = {
-    productName: "Hahahha",
-    categoryId: "2",
-    price: 160,
-    productType: "MALE",
-    status: "SHOW",
+    productName: "",
+    categoryId: "",
+    price: 0,
+    productType: "",
+    status: "",
     variants: [defaultVariant],
 };
 
 const AddEditProduct = ({ onClose }: { data?: null; onClose: () => void; }) => {
-    /** ———————————————————————————————————————————————————————————
-     * Fake categories for the demo
-     * ——————————————————————————————————————————————————————————— */
+    const dispatch: AppDispatch = useDispatch()
     const [categories] = useState([
         { categoryId: 1, title: "Shirts" },
         { categoryId: 2, title: "Caps" },
@@ -61,8 +62,10 @@ const AddEditProduct = ({ onClose }: { data?: null; onClose: () => void; }) => {
         initialValues: initialState,
         validationSchema: productSchema,
         onSubmit: (vals) => {
+            dispatch(addProduct(vals)).then((res) => {
+                console.log("Hello from product", res)
+            })
 
-            console.log("✅ SUBMIT", vals);
         },
     });
 

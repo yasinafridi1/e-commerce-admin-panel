@@ -6,11 +6,17 @@ import type {
 
 function formatSize(item: SizesState[], colorCode: string, images: any) {
   const structureSize = item.map((prd: SizesState) => {
-    images.push(prd.image);
+    const originalFile = prd.image;
+    const newFileName = `${colorCode}-${prd.size}-${originalFile.name}`;
+    const renamedFile = new File([originalFile], newFileName, {
+      type: originalFile.type,
+    });
+
+    images.push(renamedFile);
     return {
       size: prd.size,
       stock: prd.stock,
-      imageRef: `${colorCode}-${prd.size}-${prd.image.name}`,
+      image: newFileName,
     };
   });
 
@@ -27,6 +33,5 @@ export function formatProductFormData(data: AddEditProductState) {
       sizes: structureSize,
     };
   });
-
-  console.log(imageArr);
+  return { imageArr, structuredVariants };
 }
