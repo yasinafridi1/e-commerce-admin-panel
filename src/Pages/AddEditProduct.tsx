@@ -24,10 +24,12 @@ import type {
     SizesState,
     VariantState,
 } from "@customTypes/index";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { AppDispatch } from "@redux/store";
 import { useDispatch } from "react-redux";
 import { addProduct } from "@redux/actions/productActions";
+import Loader from "@components/loader";
+import { getQuickCategories } from "@redux/actions/categoryActions";
 
 const classes = "flex flex-col gap-1 sm:gap-5 sm:flex-row";
 
@@ -49,13 +51,11 @@ const initialState: AddEditProductState = {
 };
 
 const AddEditProduct = ({ onClose }: { data?: null; onClose: () => void; }) => {
+    let Once = true;
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
     const dispatch: AppDispatch = useDispatch()
-    const [categories] = useState([
-        { categoryId: 1, title: "Shirts" },
-        { categoryId: 2, title: "Caps" },
-        { categoryId: 3, title: "Pants" },
-        { categoryId: 4, title: "Jeans" },
-    ]);
+    const [categories, setCategories] = useState([])
 
     // ──────────────────────────────────────────────────────────
     const formik = useFormik<AddEditProductState>({
@@ -83,7 +83,20 @@ const AddEditProduct = ({ onClose }: { data?: null; onClose: () => void; }) => {
     const err = (path: string) => getIn(errors as FormikErrors<any>, path);
     const tch = (path: string) => !!getIn(touched as FormikTouched<any>, path);
 
-    /* ───────────────────────── RENDER ──────────────────────── */
+
+    useEffect(() => {
+        if (Once) {
+            Once = false;
+            getQuickCategories().then((res) => {
+                setCategories(res.data);
+                setLoading(false);
+            }).catch((e) => {
+                console.log(e)
+                setError(!error)
+                setLoading(false)
+            })
+        }
+    }, [])
     return (
         <div className="w-full">
             <PageHeader text="Add/Update Product">
@@ -99,267 +112,277 @@ const AddEditProduct = ({ onClose }: { data?: null; onClose: () => void; }) => {
                     <span className="text-sm sm:text-base lg:text-lg">Go Back</span>
                 </button>
             </PageHeader>
+            {
+                loading ? <div className="w-full min-h-[200px] h-[55vh] flex justify-center items-center rounded-md bg-white dark:bg-boxdark">
+                    <Loader />
+                </div>
+                    : error || !categories.length ? <div className="w-full min-h-[200px] h-[55vh] flex justify-center items-center rounded-md bg-white dark:bg-boxdark">
+                        <h1 className="poppins-500 text-lg md:text-xl text-center text-red-700 dark:text-red-500 w-[90%] sm:w-[80%] md:w-[70%]">
+                            Looks like there is no category or there is something wrong happen while fetching category. Please try again
+                        </h1>
+                    </div> :
+                        <div className="bg-white dark:bg-boxdark rounded-md py-4 px-6">
+                            <FormikProvider value={formik}>
+                                <form onSubmit={handleSubmit} className="space-y-4">
+                                    {/* ───── Top‑level fields ──── */}
+                                    <div className={classes}>
+                                        <TextInput
+                                            label="Product Name"
+                                            name="productName"
+                                            value={values.productName}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={err("productName")}
+                                            touch={tch("productName")}
+                                            placeHolder="Enter product name"
+                                        />
 
-            <div className="bg-white dark:bg-boxdark rounded-md py-4 px-6">
-                <FormikProvider value={formik}>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        {/* ───── Top‑level fields ──── */}
-                        <div className={classes}>
-                            <TextInput
-                                label="Product Name"
-                                name="productName"
-                                value={values.productName}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={err("productName")}
-                                touch={tch("productName")}
-                                placeHolder="Enter product name"
-                            />
+                                        <TextInput
+                                            label="Price"
+                                            type="number"
+                                            name="price"
+                                            value={values.price}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={err("price")}
+                                            touch={tch("price")}
+                                            placeHolder="Product Cost"
+                                        />
+                                    </div>
 
-                            <TextInput
-                                label="Price"
-                                type="number"
-                                name="price"
-                                value={values.price}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={err("price")}
-                                touch={tch("price")}
-                                placeHolder="Product Cost"
-                            />
-                        </div>
+                                    <div className={classes}>
+                                        <SelectInput
+                                            name="status"
+                                            label="Status"
+                                            value={values.status}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={err("status")}
+                                            touch={tch("status")}
+                                            placeHolder="Choose Status"
+                                            options={[
+                                                { label: "Show", value: "SHOW" },
+                                                { label: "Hide", value: "HIDE" },
+                                            ]}
+                                        />
 
-                        <div className={classes}>
-                            <SelectInput
-                                name="status"
-                                label="Status"
-                                value={values.status}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={err("status")}
-                                touch={tch("status")}
-                                placeHolder="Choose Status"
-                                options={[
-                                    { label: "Show", value: "SHOW" },
-                                    { label: "Hide", value: "HIDE" },
-                                ]}
-                            />
+                                        <SelectInput
+                                            name="productType"
+                                            label="Type"
+                                            value={values.productType}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={err("productType")}
+                                            touch={tch("productType")}
+                                            placeHolder="Choose Type"
+                                            options={PRODUCT_TYPES.map((p) => ({
+                                                label: p,
+                                                value: p,
+                                            }))}
+                                        />
+                                    </div>
 
-                            <SelectInput
-                                name="productType"
-                                label="Type"
-                                value={values.productType}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={err("productType")}
-                                touch={tch("productType")}
-                                placeHolder="Choose Type"
-                                options={PRODUCT_TYPES.map((p) => ({
-                                    label: p,
-                                    value: p,
-                                }))}
-                            />
-                        </div>
+                                    <div className={classes}>
+                                        <SelectInput
+                                            name="categoryId"
+                                            label="Category"
+                                            value={values.categoryId}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={err("categoryId")}
+                                            touch={tch("categoryId")}
+                                            placeHolder="Choose Category"
+                                            options={categories.map((c: any) => ({
+                                                label: c.title,
+                                                value: c.categoryId,
+                                            }))}
+                                        />
+                                    </div>
 
-                        <div className={classes}>
-                            <SelectInput
-                                name="categoryId"
-                                label="Category"
-                                value={values.categoryId}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={err("categoryId")}
-                                touch={tch("categoryId")}
-                                placeHolder="Choose Category"
-                                options={categories.map((c: any) => ({
-                                    label: c.title,
-                                    value: c.categoryId,
-                                }))}
-                            />
-                        </div>
+                                    {/* ───── Variants (FieldArray) ──── */}
+                                    <FieldArray name="variants">
+                                        {({ push: pushVariant, remove: removeVariant }) => (
+                                            <>
+                                                {values.variants.map((variant, vIdx) => (
+                                                    <div
+                                                        key={vIdx}
+                                                        className="mt-5 rounded-md border border-gray-500 px-4 py-4 space-y-4"
+                                                    >
+                                                        <div className="flex items-center justify-between">
+                                                            <h1 className="poppins-500 text-sm sm:text-base dark:text-light xl:text-lg">
+                                                                Variant ‑ {vIdx + 1}
+                                                            </h1>
+                                                            {values.variants.length > 1 && (
+                                                                <RiDeleteBin6Fill
+                                                                    className="cursor-pointer text-base text-red-700 md:text-xl 2xl:text-2xl"
+                                                                    onClick={() => removeVariant(vIdx)}
+                                                                />
+                                                            )}
+                                                        </div>
 
-                        {/* ───── Variants (FieldArray) ──── */}
-                        <FieldArray name="variants">
-                            {({ push: pushVariant, remove: removeVariant }) => (
-                                <>
-                                    {values.variants.map((variant, vIdx) => (
-                                        <div
-                                            key={vIdx}
-                                            className="mt-5 rounded-md border border-gray-500 px-4 py-4 space-y-4"
-                                        >
-                                            <div className="flex items-center justify-between">
-                                                <h1 className="poppins-500 text-sm sm:text-base dark:text-light xl:text-lg">
-                                                    Variant ‑ {vIdx + 1}
-                                                </h1>
-                                                {values.variants.length > 1 && (
-                                                    <RiDeleteBin6Fill
-                                                        className="cursor-pointer text-base text-red-700 md:text-xl 2xl:text-2xl"
-                                                        onClick={() => removeVariant(vIdx)}
-                                                    />
-                                                )}
-                                            </div>
+                                                        {/* Color fields */}
+                                                        <div className={classes}>
+                                                            <TextInput
+                                                                label="Color Name"
+                                                                name={`variants[${vIdx}].colorName`}
+                                                                value={variant.colorName}
+                                                                onChange={handleChange}
+                                                                onBlur={handleBlur}
+                                                                error={err(`variants[${vIdx}].colorName`)}
+                                                                touch={tch(`variants[${vIdx}].colorName`)}
+                                                                placeHolder="Name of color"
+                                                            />
 
-                                            {/* Color fields */}
-                                            <div className={classes}>
-                                                <TextInput
-                                                    label="Color Name"
-                                                    name={`variants[${vIdx}].colorName`}
-                                                    value={variant.colorName}
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    error={err(`variants[${vIdx}].colorName`)}
-                                                    touch={tch(`variants[${vIdx}].colorName`)}
-                                                    placeHolder="Name of color"
-                                                />
+                                                            <ColorPicker
+                                                                label="Color Code"
+                                                                name={`variants[${vIdx}].colorCode`}
+                                                                value={variant.colorCode}
+                                                                onChange={handleChange}
+                                                            />
+                                                        </div>
 
-                                                <ColorPicker
-                                                    label="Color Code"
-                                                    name={`variants[${vIdx}].colorCode`}
-                                                    value={variant.colorCode}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
+                                                        {/* ── Sizes (nested FieldArray) ── */}
+                                                        <FieldArray name={`variants[${vIdx}].sizes`}>
+                                                            {({
+                                                                push: pushSize,
+                                                                remove: removeSize,
+                                                            }) => (
+                                                                <>
+                                                                    {variant.sizes.map(
+                                                                        (size, sIdx) => (
+                                                                            <div
+                                                                                key={sIdx}
+                                                                                className="px-6 space-y-3"
+                                                                            >
+                                                                                <div className={classes}>
+                                                                                    <SelectInput
+                                                                                        name={`variants[${vIdx}].sizes[${sIdx}].size`}
+                                                                                        label="Size"
+                                                                                        value={size.size}
+                                                                                        onChange={handleChange}
+                                                                                        onBlur={handleBlur}
+                                                                                        error={err(
+                                                                                            `variants[${vIdx}].sizes[${sIdx}].size`,
+                                                                                        )}
+                                                                                        touch={tch(
+                                                                                            `variants[${vIdx}].sizes[${sIdx}].size`,
+                                                                                        )}
+                                                                                        placeHolder="Choose Size"
+                                                                                        options={PRODUCT_SIZE.map(
+                                                                                            (p) => ({
+                                                                                                label: p,
+                                                                                                value: p,
+                                                                                            }),
+                                                                                        )}
+                                                                                    />
 
-                                            {/* ── Sizes (nested FieldArray) ── */}
-                                            <FieldArray name={`variants[${vIdx}].sizes`}>
-                                                {({
-                                                    push: pushSize,
-                                                    remove: removeSize,
-                                                }) => (
-                                                    <>
-                                                        {variant.sizes.map(
-                                                            (size, sIdx) => (
-                                                                <div
-                                                                    key={sIdx}
-                                                                    className="px-6 space-y-3"
-                                                                >
-                                                                    <div className={classes}>
-                                                                        <SelectInput
-                                                                            name={`variants[${vIdx}].sizes[${sIdx}].size`}
-                                                                            label="Size"
-                                                                            value={size.size}
-                                                                            onChange={handleChange}
-                                                                            onBlur={handleBlur}
-                                                                            error={err(
-                                                                                `variants[${vIdx}].sizes[${sIdx}].size`,
-                                                                            )}
-                                                                            touch={tch(
-                                                                                `variants[${vIdx}].sizes[${sIdx}].size`,
-                                                                            )}
-                                                                            placeHolder="Choose Size"
-                                                                            options={PRODUCT_SIZE.map(
-                                                                                (p) => ({
-                                                                                    label: p,
-                                                                                    value: p,
-                                                                                }),
-                                                                            )}
-                                                                        />
-
-                                                                        <TextInput
-                                                                            name={`variants[${vIdx}].sizes[${sIdx}].stock`}
-                                                                            label="Available Stock"
-                                                                            type="number"
-                                                                            value={size.stock}
-                                                                            onChange={handleChange}
-                                                                            onBlur={handleBlur}
-                                                                            error={err(
-                                                                                `variants[${vIdx}].sizes[${sIdx}].stock`,
-                                                                            )}
-                                                                            touch={tch(
-                                                                                `variants[${vIdx}].sizes[${sIdx}].stock`,
-                                                                            )}
-                                                                            placeHolder="Available Stock"
-                                                                        />
-                                                                    </div>
-                                                                    {/* File upload */}
-                                                                    <FileInput
-                                                                        name={`variants[${vIdx}].sizes[${sIdx}].image`}
-                                                                        onBlur={handleBlur}
-                                                                        onChange={(file) =>
-                                                                            setFieldValue(
-                                                                                `variants[${vIdx}].sizes[${sIdx}].image`,
-                                                                                file,
-                                                                            )
-                                                                        }
-                                                                        error={err(
-                                                                            `variants[${vIdx}].sizes[${sIdx}].image`,
-                                                                        )}
-                                                                        touch={tch(
-                                                                            `variants[${vIdx}].sizes[${sIdx}].image`,
-                                                                        )}
-                                                                    />
-
-                                                                    {/* size buttons */}
-                                                                    <div className="mt-3 flex items-center gap-2">
-                                                                        {sIdx ===
-                                                                            variant.sizes.length -
-                                                                            1 && (
-                                                                                <button
-                                                                                    type="button"
-                                                                                    onClick={() =>
-                                                                                        pushSize(
-                                                                                            defaultSize,
+                                                                                    <TextInput
+                                                                                        name={`variants[${vIdx}].sizes[${sIdx}].stock`}
+                                                                                        label="Available Stock"
+                                                                                        type="number"
+                                                                                        value={size.stock}
+                                                                                        onChange={handleChange}
+                                                                                        onBlur={handleBlur}
+                                                                                        error={err(
+                                                                                            `variants[${vIdx}].sizes[${sIdx}].stock`,
+                                                                                        )}
+                                                                                        touch={tch(
+                                                                                            `variants[${vIdx}].sizes[${sIdx}].stock`,
+                                                                                        )}
+                                                                                        placeHolder="Available Stock"
+                                                                                    />
+                                                                                </div>
+                                                                                {/* File upload */}
+                                                                                <FileInput
+                                                                                    name={`variants[${vIdx}].sizes[${sIdx}].image`}
+                                                                                    onBlur={handleBlur}
+                                                                                    onChange={(file) =>
+                                                                                        setFieldValue(
+                                                                                            `variants[${vIdx}].sizes[${sIdx}].image`,
+                                                                                            file,
                                                                                         )
                                                                                     }
-                                                                                    className="flex items-center gap-2 rounded-md border border-green-700 px-2 py-1 text-green-700 transition hover:bg-green-700 hover:text-light dark:text-light"
-                                                                                >
-                                                                                    <IoIosAdd className="text-xl" />
-                                                                                    <span className="text-sm xl:text-base">
-                                                                                        New Size
-                                                                                    </span>
-                                                                                </button>
-                                                                            )}
+                                                                                    error={err(
+                                                                                        `variants[${vIdx}].sizes[${sIdx}].image`,
+                                                                                    )}
+                                                                                    touch={tch(
+                                                                                        `variants[${vIdx}].sizes[${sIdx}].image`,
+                                                                                    )}
+                                                                                />
 
-                                                                        {variant.sizes.length >
-                                                                            1 && (
-                                                                                <button
-                                                                                    type="button"
-                                                                                    onClick={() =>
-                                                                                        removeSize(sIdx)
-                                                                                    }
-                                                                                    className="flex items-center gap-2 rounded-md border border-red-700 bg-red-800 px-2 py-1 text-light transition hover:bg-inherit hover:text-red-700 dark:hover:text-light"
-                                                                                >
-                                                                                    <RiDeleteBin6Fill className="text-base" />
-                                                                                    <span className="text-sm xl:text-base">
-                                                                                        Delete Size
-                                                                                    </span>
-                                                                                </button>
-                                                                            )}
-                                                                    </div>
-                                                                </div>
-                                                            ),
-                                                        )}
-                                                    </>
-                                                )}
-                                            </FieldArray>
+                                                                                {/* size buttons */}
+                                                                                <div className="mt-3 flex items-center gap-2">
+                                                                                    {sIdx ===
+                                                                                        variant.sizes.length -
+                                                                                        1 && (
+                                                                                            <button
+                                                                                                type="button"
+                                                                                                onClick={() =>
+                                                                                                    pushSize(
+                                                                                                        defaultSize,
+                                                                                                    )
+                                                                                                }
+                                                                                                className="flex items-center gap-2 rounded-md border border-green-700 px-2 py-1 text-green-700 transition hover:bg-green-700 hover:text-light dark:text-light"
+                                                                                            >
+                                                                                                <IoIosAdd className="text-xl" />
+                                                                                                <span className="text-sm xl:text-base">
+                                                                                                    New Size
+                                                                                                </span>
+                                                                                            </button>
+                                                                                        )}
 
-                                            {/* Add Variant Button */}
-                                            <div className="flex justify-end">
-                                                <ButtonAdd
-                                                    text="Add Variant"
-                                                    onClick={() =>
-                                                        pushVariant(defaultVariant)
-                                                    }
-                                                />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </>
-                            )}
-                        </FieldArray>
+                                                                                    {variant.sizes.length >
+                                                                                        1 && (
+                                                                                            <button
+                                                                                                type="button"
+                                                                                                onClick={() =>
+                                                                                                    removeSize(sIdx)
+                                                                                                }
+                                                                                                className="flex items-center gap-2 rounded-md border border-red-700 bg-red-800 px-2 py-1 text-light transition hover:bg-inherit hover:text-red-700 dark:hover:text-light"
+                                                                                            >
+                                                                                                <RiDeleteBin6Fill className="text-base" />
+                                                                                                <span className="text-sm xl:text-base">
+                                                                                                    Delete Size
+                                                                                                </span>
+                                                                                            </button>
+                                                                                        )}
+                                                                                </div>
+                                                                            </div>
+                                                                        ),
+                                                                    )}
+                                                                </>
+                                                            )}
+                                                        </FieldArray>
 
-                        {/* ───── Submit ──── */}
-                        <div className="flex justify-end pt-4">
-                            <button
-                                type="submit"
-                                className="rounded bg-primary px-6 py-2 font-medium text-light transition hover:opacity-90"
-                            >
-                                Save Product
-                            </button>
+                                                        {/* Add Variant Button */}
+                                                        <div className="flex justify-end">
+                                                            <ButtonAdd
+                                                                text="Add Variant"
+                                                                onClick={() =>
+                                                                    pushVariant(defaultVariant)
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </>
+                                        )}
+                                    </FieldArray>
+
+                                    {/* ───── Submit ──── */}
+                                    <div className="flex justify-end pt-4">
+                                        <button
+                                            type="submit"
+                                            className="rounded bg-primary px-6 py-2 font-medium text-light transition hover:opacity-90"
+                                        >
+                                            Save Product
+                                        </button>
+                                    </div>
+                                </form>
+                            </FormikProvider>
                         </div>
-                    </form>
-                </FormikProvider>
-            </div>
+            }
+
         </div>
     );
 };

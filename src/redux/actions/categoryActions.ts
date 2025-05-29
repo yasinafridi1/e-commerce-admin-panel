@@ -1,7 +1,7 @@
 import api from "@utils/axiosInstance";
 import asyncThunkRequest from "@utils/asyncThunkRequest";
 import type { CategoryStates } from "@components/Modal/AddEditCategoryModal";
-import { successToast } from "@utils/toasterUtil";
+import { errorToast, successToast } from "@utils/toasterUtil";
 
 export const getAllCategories = asyncThunkRequest(
   "category/getAllCategories",
@@ -38,3 +38,16 @@ export const updateCategory = asyncThunkRequest(
     return response?.data?.data;
   }
 );
+
+export const getQuickCategories = async () => {
+  try {
+    const response = await api.get("/category");
+    console.log("Response.data", response.data);
+    return response.data;
+  } catch (error: any) {
+    errorToast(
+      error?.response?.data?.message || error?.message || "Something went wrong"
+    );
+    throw error;
+  }
+};
