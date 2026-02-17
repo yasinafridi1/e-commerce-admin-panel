@@ -51,17 +51,19 @@ const Login: React.FC = () => {
           onSubmit={handleSubmit}
           className="mt-10 flex w-full flex-col items-center justify-start py-5"
         >
-          <TextInput
-            name="email"
-            type="email"
-            label="Email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.email}
-            error={errors?.email}
-            touch={touched?.email}
-            placeHolder="Email Address"
-          />
+          <div className="w-[90%]">
+            <TextInput
+              name="email"
+              type="email"
+              label="Email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+              error={errors?.email}
+              touch={touched?.email}
+              placeHolder="Email Address"
+            />
+          </div>
           <PasswordInput
             name="password"
             label="Password"

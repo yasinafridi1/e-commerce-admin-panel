@@ -1,3 +1,4 @@
+import Avatar from "@components/Avatar/Avatar";
 import ButtonAdd from "@components/Buttons/ButtonAdd";
 import PageHeader from "@components/Headers/PageHeader";
 import TableHeader from "@components/Headers/TableHeader";
@@ -114,10 +115,13 @@ const Categories = () => {
           {data?.map((item, index) => {
             return (
               <tr key={index} className="text-boxdark2 dark:text-light">
-                <td className="px-1 pl-3">{item.categoryId}</td>
-                <td className="px-1">{item.title}</td>
-                <td className="px-1">{formatDate(item.createdAt)}</td>
-                <td className="px-1">{formatDate(item.updatedAt)}</td>
+                <td className="px-1 pl-3 text-sm 2xl:text-base">{item.categoryId}</td>
+                <td className="px-1 pl-3 text-sm 2xl:text-base">
+                  <Avatar imgSrc={item?.image} />
+                </td>
+                <td className="px-1 text-sm 2xl:text-base">{item.title}</td>
+                <td className="px-1 text-sm 2xl:text-base">{formatDate(item.createdAt)}</td>
+                <td className="px-1 text-sm 2xl:text-base">{formatDate(item.updatedAt)}</td>
                 <ActionsCol
                   edit={true}
                   onEdit={() => { openAddEditModal({ categoryId: item.categoryId, title: item.title }) }}

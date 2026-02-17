@@ -111,18 +111,17 @@ const Index = ({
   return (
     <aside
       ref={sidebar}
-      className={`bg-primary dark:bg-boxdark absolute top-0 left-0 z-99 flex h-screen w-64 flex-col overflow-y-hidden duration-300 ease-linear lg:static lg:translate-x-0 ${
-        sideBarOpen
-          ? "translate-x-0"
-          : "-translate-x-full"
-      }`}
+      className={`bg-primary dark:bg-boxdark absolute top-0 left-0 z-99 flex h-screen w-64 flex-col overflow-y-hidden duration-300 ease-linear lg:static lg:translate-x-0 ${sideBarOpen
+        ? "translate-x-0"
+        : "-translate-x-full"
+        }`}
     >
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:justify-center lg:py-6">
         <NavLink to="/">
           <img
             src={logoWhite}
             alt="Logo"
-            className="h-24 w-24"
+            className="h-20 w-18 "
           />
         </NavLink>
 
@@ -150,9 +149,9 @@ const Index = ({
       </div>
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
-        <nav className="mt-3 px-2 py-4 lg:mt-3 lg:px-6">
+        <nav className="mt-3 px-2 py-2 lg:mt-3 lg:px-6">
           <div>
-            <ul className="mb-6 flex flex-col gap-1.5">
+            <ul className="mb-1 flex flex-col gap-1.5">
               {sidebarData?.map(
                 (
                   item: SidebarItem,
@@ -162,12 +161,11 @@ const Index = ({
                     <li key={index}>
                       <NavLink
                         to={item.url}
-                        className={`group poppins-500 text-light hover:bg-primary-light dark:hover:bg-boxdark2 relative flex items-center gap-2.5 rounded-full px-5 py-3 text-lg duration-300 ease-in-out ${
-                          pathname === item.url &&
+                        className={`text-sm 2xl:text-lg group poppins-500 text-light hover:bg-primary-light dark:hover:bg-boxdark2 relative flex items-center gap-2.5 rounded-full px-5 py-3  duration-300 ease-in-out ${pathname === item.url &&
                           "bg-primary-light dark:bg-boxdark2"
-                        }`}
+                          }`}
                       >
-                        <span className="text-2xl">
+                        <span className="text-xl">
                           {item.icon}
                         </span>
                         {item.label}

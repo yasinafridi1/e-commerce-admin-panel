@@ -41,6 +41,7 @@ interface CustomerData extends AuthDataState {
 interface CategoryData {
   categoryId: number;
   title: string;
+  image: string;
   createdAt: string;
   updatedAt: string;
 }

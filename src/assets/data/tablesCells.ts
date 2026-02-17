@@ -11,6 +11,7 @@ export const customerHeaders = [
 
 export const categoryHeaders = [
   "Id",
+  "Image",
   "Title",
   "createAt",
   "updatedAt",
