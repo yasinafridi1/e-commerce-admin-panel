@@ -97,6 +97,9 @@ const AddEditProduct = ({ onClose }: { data?: null; onClose: () => void; }) => {
             })
         }
     }, [])
+
+
+    console.log("Categories in product:", categories);
     return (
         <div className="w-full">
             <PageHeader text="Add/Update Product">
